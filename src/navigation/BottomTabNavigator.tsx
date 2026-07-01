@@ -5,9 +5,17 @@ import SearchScreen from '../screens/SearchScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import { Ionicons } from "@expo/vector-icons";
 import HomeStackNavigator from './HomeStackNavigator';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 
 const Tab = createBottomTabNavigator();
+const tabBarBaseStyle = {
+  backgroundColor: '#fff',
+  borderTopColor: '#f2e4d8',
+  height: 64,
+  paddingBottom: 8,
+  paddingTop: 8,
+};
 
 export default function BottomTabNavigator(){
     return(
@@ -49,11 +57,19 @@ export default function BottomTabNavigator(){
 
         tabBarActiveTintColor: "#ff6b00",
         tabBarInactiveTintColor: "gray",
+        tabBarStyle: tabBarBaseStyle,
         headerShown: false,
       })}>
             <Tab.Screen name ="Home" 
             //@ts-ignore
-             component={HomeStackNavigator}  />
+             component={HomeStackNavigator}
+             options={({ route }) => {
+              const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
+              return {
+                tabBarStyle: routeName === 'Home' ? tabBarBaseStyle : { display: 'none' },
+              };
+             }}
+             />
             <Tab.Screen name = "Profile" component={ProfileScreen}/>
             <Tab.Screen name = "Search" component={SearchScreen}/>
             <Tab.Screen name = "orders" component={OrdersScreen}/>

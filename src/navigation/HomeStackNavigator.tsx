@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 
 export default function HomeStackNavigator(){
     return(
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="Home" >
         <Stack.Screen name="RestaurantDetails" component={RestaurantDetailsScreen} options={({route})=>{
             return{
                 //@ts-ignore
