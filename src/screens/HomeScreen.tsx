@@ -1,6 +1,7 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { restaurants } from '../data/restaurants'
 
 
 
@@ -9,21 +10,24 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Restaurants</Text>
-      <Pressable style={styles.card} onPress={()=>{
-        //@ts-ignore
-        navigation.navigate("RestaurantDetails" , {
-            name :'Dominos',
-            price : 400
-
-        })
-      }}>
-        <Image
-          source={{ uri: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=900&q=80' }}
-          style={styles.image}
-        />
-        <Text style={styles.cardTitle}>Dominos</Text>
-        <Text style={styles.cardText}>Pizza, pasta, fast delivery</Text>
-      </Pressable>
+      <FlatList
+        data={restaurants}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContent}
+        renderItem={({ item }) => (
+          <Pressable
+            style={styles.card}
+            onPress={() => {
+              //@ts-ignore
+              navigation.navigate('RestaurantDetails', item)
+            }}>
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <Text style={styles.cardTitle}>{item.name}</Text>
+            <Text style={styles.cardText}>{item.description}</Text>
+          </Pressable>
+        )}
+      />
     </View>
   )
 }
@@ -41,6 +45,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#1f1f1f',
     marginBottom: 16,
+  },
+  listContent: {
+    paddingBottom: 16,
   },
   card: {
     backgroundColor: '#fff',

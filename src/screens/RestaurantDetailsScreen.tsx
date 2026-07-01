@@ -1,24 +1,30 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { useContext } from 'react'
+import { CartContext } from '../context/CartContext'
 const RestaurantDetailsScreen = ({route}: any) => {
+  const restaurant = route.params;
+  const { addToCart } = useContext(CartContext);
 
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=900&q=80' }}
+        source={{ uri: restaurant.image }}
         style={styles.image}
       />
-      <Text style={styles.title}>{route.params.name}</Text>
-      <Text style={styles.subtitle}>Price: {route.params.price}</Text>
+      <Text style={styles.title}>{restaurant.name}</Text>
+      <Text style={styles.subtitle}>Price: {restaurant.price}</Text>
+      <Text style={styles.description}>{restaurant.description}</Text>
       <Pressable style={styles.button} onPress={()=>{
+        addToCart(restaurant);
         //@ts-ignore
         navigation.navigate("Cart",{
-          name: route.params.name,
-          price: route.params.price,
-          image: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=900&q=80',
-          description: 'Fresh and tasty meal prepared for quick delivery.'
+          name: restaurant.name,
+          price: restaurant.price,
+          image: restaurant.image,
+          description: restaurant.description
 
         })}}>
         <Text style={styles.buttonText}>Add To Cart</Text>
@@ -51,6 +57,11 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: '#666',
+    marginBottom: 18,
+  },
+  description: {
+    color: '#6b5b4f',
+    textAlign: 'center',
     marginBottom: 18,
   },
   button: {

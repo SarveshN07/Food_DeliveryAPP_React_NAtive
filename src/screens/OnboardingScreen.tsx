@@ -18,7 +18,7 @@ const OnboardingScreen = () => {
       <Text style={styles.title}>Food Delivery App</Text>
       <Text style={styles.subtitle}>A simple food ordering app for learning navigation.</Text>
       <Button onPress ={()=> //@ts-ignore 
-      navigation.navigate('BottomTabs') }>Get Started</Button>
+      navigation.navigate('Login') }>Get Started</Button>
     </View>
     </SafeAreaView>
     
